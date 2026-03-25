@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>4회차: GitHub에 내 프로젝트 공유하기</title>
+<style>
+  :root { --bg: #0f172a; --card: #1e293b; --accent: #3b82f6; --green: #22c55e; --red: #ef4444; --yellow: #eab308; --text: #e2e8f0; --muted: #94a3b8; --border: #334155; }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: 'Segoe UI', -apple-system, sans-serif; background: var(--bg); color: var(--text); line-height: 1.8; }
+  .container { max-width: 800px; margin: 0 auto; padding: 20px; }
+  h1 { font-size: 1.8em; color: #fff; margin: 30px 0 10px; padding-bottom: 10px; border-bottom: 3px solid var(--accent); }
+  h2 { font-size: 1.3em; color: var(--accent); margin: 30px 0 15px; padding: 10px 15px; background: rgba(59,130,246,0.1); border-left: 4px solid var(--accent); border-radius: 0 8px 8px 0; }
+  h3 { font-size: 1.1em; color: var(--yellow); margin: 25px 0 10px; }
+  p { margin: 8px 0; }
+  .badge { display: inline-block; background: var(--accent); color: #fff; padding: 4px 16px; border-radius: 20px; font-size: 0.9em; font-weight: 600; margin: 5px 0; }
+  .goal { background: rgba(34,197,94,0.1); border: 1px solid rgba(34,197,94,0.3); padding: 15px 20px; border-radius: 10px; margin: 10px 0 25px; font-weight: 500; }
+  pre { background: #0d1117; border: 1px solid var(--border); border-radius: 8px; padding: 15px 20px; margin: 10px 0; overflow-x: auto; font-family: 'Consolas', 'Courier New', monospace; font-size: 0.95em; color: #7ee787; }
+  .note { background: rgba(59,130,246,0.1); border-left: 4px solid var(--accent); padding: 12px 18px; border-radius: 0 8px 8px 0; margin: 12px 0; }
+  .tip { background: rgba(234,179,8,0.1); border-left: 4px solid var(--yellow); padding: 12px 18px; border-radius: 0 8px 8px 0; margin: 12px 0; }
+  .warning { background: rgba(239,68,68,0.1); border-left: 4px solid var(--red); padding: 12px 18px; border-radius: 0 8px 8px 0; margin: 12px 0; }
+  .checkpoint { background: rgba(34,197,94,0.08); border: 1px solid rgba(34,197,94,0.2); border-radius: 10px; padding: 15px 20px; margin: 15px 0; }
+  .checkpoint li { list-style: none; padding: 5px 0; }
+  .checkpoint li::before { content: "✅ "; }
+  table { width: 100%; border-collapse: collapse; margin: 15px 0; font-size: 0.9em; }
+  th { background: var(--accent); color: #fff; padding: 10px 12px; text-align: left; }
+  td { padding: 10px 12px; border-bottom: 1px solid var(--border); }
+  tr:hover td { background: rgba(59,130,246,0.05); }
+  .nav { display: flex; justify-content: space-between; align-items: center; padding: 20px 0; margin-top: 30px; border-top: 1px solid var(--border); }
+  .nav a { color: var(--accent); text-decoration: none; font-weight: 600; padding: 8px 20px; border: 1px solid var(--accent); border-radius: 8px; transition: 0.2s; }
+  .nav a:hover { background: var(--accent); color: #fff; }
+  .session-header { text-align: center; padding: 40px 20px; background: linear-gradient(135deg, #1e3a5f 0%, #0f172a 100%); border-radius: 16px; margin-bottom: 30px; }
+  .session-header .num { font-size: 3em; font-weight: 800; color: var(--accent); }
+  .session-header h1 { border: none; font-size: 1.5em; margin: 10px 0 0; }
+  .done { text-align: center; padding: 30px; background: linear-gradient(135deg, rgba(34,197,94,0.15), rgba(34,197,94,0.05)); border-radius: 16px; margin: 30px 0; }
+  .done p { font-size: 1.1em; }
+  .final { text-align: center; padding: 40px; background: linear-gradient(135deg, #1e3a5f, #2d1b69); border-radius: 16px; margin: 30px 0; }
+  .final h2 { background: none; border: none; color: #fff; text-align: center; font-size: 1.5em; }
+  .final p { font-size: 1.05em; }
+  .roadmap { background: var(--card); border-radius: 12px; padding: 25px; margin: 20px 0; }
+  .roadmap-item { display: flex; gap: 15px; padding: 12px 0; border-bottom: 1px solid var(--border); }
+  .roadmap-item:last-child { border: none; }
+  .roadmap-num { background: var(--accent); color: #fff; width: 35px; height: 35px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; flex-shrink: 0; }
+  .roadmap-num.done-num { background: var(--green); }
+  .next-list { background: var(--card); border-radius: 12px; padding: 20px 25px; margin: 15px 0; }
+  .next-list p { padding: 5px 0; }
+</style>
+</head>
+<body>
+<div class="container">
+
+<div class="session-header">
+  <div class="num">4</div>
+  <h1>GitHub에 내 프로젝트 공유하기</h1>
+  <span class="badge">⏱️ 30분</span>
+</div>
+
+<div class="goal">🎯 <strong>이 회차를 마치면:</strong> 내가 만든 프로젝트가 GitHub 웹사이트에 올라가서, 주소만 알려주면 누구나 볼 수 있어요! 전체 강의 완성!</div>
+
+<!-- Step 1 -->
+<h2>Step 1. GitHub가 뭔지 알아보기 (3분)</h2>
+<div class="note">
+  📌 <strong>GitHub(깃허브)는 "코드의 인스타그램"이에요!</strong><br>
+  • 인스타그램에 사진을 올리듯, GitHub에 내 코드를 올려서 보관하고 공유<br>
+  • 전 세계 개발자들이 자기 프로젝트를 GitHub에 올려요<br>
+  • 내 컴퓨터가 고장 나도 코드가 안전하게 보관됨<br>
+  • 무료!
+</div>
+<div class="note">
+  📌 <strong>Repository(저장소)가 뭔가요?</strong><br>
+  Repository(레포지토리, 줄여서 "레포")는 "프로젝트 폴더"예요.<br>
+  우리의 etf-dashboard 폴더를 GitHub에 올리면, 그게 하나의 Repository!<br>
+  비유: 인스타그램의 "게시물 하나" = GitHub의 "Repository 하나"
+</div>
+
+<!-- Step 2 -->
+<h2>Step 2. GitHub 가입하기 (7분)</h2>
+<p>브라우저에서 아래 주소로 이동:</p>
+<pre>https://github.com</pre>
+<p>오른쪽 위 <strong>"Sign up"</strong> 버튼을 클릭하세요.</p>
+<p>가입 화면이 나오면 차례대로:</p>
+
+<p><strong>1) "Enter your email"</strong><br>
+이메일 주소를 입력하고 "Continue" 클릭</p>
+
+<p><strong>2) "Create a password"</strong><br>
+비밀번호를 만드세요 (8자 이상, 숫자 포함) → "Continue" 클릭</p>
+
+<p><strong>3) "Enter a username"</strong><br>
+사용자 이름을 만드세요 (영어, 숫자, - 만 사용 가능)<br>
+예시: <code>my-first-code</code>, <code>student-kim</code>, <code>etf-learner</code></p>
+<div class="tip">💡 이 이름이 내 GitHub 주소가 돼요! (github.com/내이름)</div>
+<p>"Continue" 클릭</p>
+
+<p><strong>4) "Would you like to receive product updates?"</strong><br>
+이메일 수신 여부 - "n"을 입력해도 괜찮아요 → "Continue" 클릭</p>
+
+<p><strong>5)</strong> 퍼즐 인증이 나오면 화면의 퍼즐을 풀어주세요</p>
+
+<p><strong>6) "Create account"</strong> 클릭</p>
+
+<p><strong>7) 이메일 확인</strong><br>
+이메일함에서 GitHub가 보낸 메일을 열어 인증 코드(6자리 숫자)를 확인하세요.<br>
+그 숫자를 화면에 입력하면 가입 완료!</p>
+
+<p>🎉 <strong>가입 완료! 이제 GitHub 회원이에요!</strong></p>
+
+<!-- Step 3 -->
+<h2>Step 3. 새 Repository(저장소) 만들기 (5분)</h2>
+<p>GitHub에 로그인한 상태에서:</p>
+<p>1) 오른쪽 위의 <strong>"+"</strong> 버튼 클릭<br>
+2) <strong>"New repository"</strong> 클릭</p>
+<p>새 저장소 만들기 화면:</p>
+<p><strong>"Repository name"</strong> (저장소 이름):</p>
+<pre>etf-youtube-dashboard</pre>
+<p><strong>"Description"</strong> (설명, 선택사항):</p>
+<pre>ETF YouTube Data Dashboard - My First Project</pre>
+<p><strong>"Public"</strong> 선택 (다른 사람도 볼 수 있게)<br>
+(비공개로 하고 싶다면 "Private" 선택)</p>
+<p>나머지 옵션은 건드리지 마세요!</p>
+<p>맨 아래 초록색 <strong>"Create repository"</strong> 버튼 클릭!</p>
+<p>빈 저장소가 만들어졌어요! 화면에 명령어들이 보일 텐데, 우리가 직접 따라할 거예요.</p>
+
+<!-- Step 4 -->
+<h2>Step 4. 내 코드를 GitHub에 올리기 (10분)</h2>
+<p>Git Bash를 열고 프로젝트 폴더로 이동:</p>
+<pre>cd ~/etf-dashboard</pre>
+<p>아래 명령어를 한 줄씩 차례로 입력하세요:</p>
+
+<p><strong>1) Git 저장소 시작하기:</strong></p>
+<pre>git init</pre>
+<div class="note">📌 "이 폴더를 Git으로 관리할게!"라는 뜻</div>
+
+<p><strong>2) 내 이름과 이메일 등록하기:</strong><br>
+(GitHub 가입할 때 쓴 이름과 이메일을 넣으세요)</p>
+<pre>git config user.name "내이름"
+git config user.email "내이메일@gmail.com"</pre>
+<div class="note">📌 Git에게 "이 코드를 만든 사람은 나야"라고 알려주는 것</div>
+
+<p><strong>3) .env 파일은 올리지 않도록 설정하기:</strong></p>
+<pre>echo ".env" &gt; .gitignore</pre>
+<div class="warning">⚠️ .env에는 API 키(비밀번호)가 있으니까 인터넷에 올리면 안 돼요!<br>
+.gitignore 파일은 "이 파일은 올리지 마"라고 Git에게 알려주는 목록</div>
+
+<p><strong>4) 모든 파일을 올릴 준비하기:</strong></p>
+<pre>git add .</pre>
+<div class="note">📌 "이 폴더의 모든 파일을 포장해줘"라는 뜻 (마지막에 점(.) 꼭 입력!)</div>
+
+<p><strong>5) 저장(커밋)하기:</strong></p>
+<pre>git commit -m "My first ETF dashboard project"</pre>
+<div class="note">📌 "이 상태를 기억해줘"라는 뜻. 따옴표 안의 메시지는 "이때 뭘 했는지" 메모하는 것</div>
+
+<p><strong>6) GitHub 저장소와 연결하기:</strong></p>
+<div class="warning">⚠️ "내깃허브이름"을 본인의 GitHub 사용자 이름으로 바꾸세요!</div>
+<pre>git remote add origin https://github.com/내깃허브이름/etf-youtube-dashboard.git</pre>
+
+<p><strong>7) GitHub에 올리기!:</strong></p>
+<pre>git branch -M main
+git push -u origin main</pre>
+<p>GitHub 로그인 창이 나타날 수 있어요:</p>
+<p>• 브라우저가 열리면 "Authorize" 또는 "허용" 클릭<br>
+• 또는 GitHub 사용자 이름과 비밀번호 입력</p>
+<p>성공하면 이런 메시지가 나와요:</p>
+<pre>To https://github.com/내깃허브이름/etf-youtube-dashboard.git
+ * [new branch]      main -&gt; main</pre>
+
+<!-- Step 5 -->
+<h2>Step 5. GitHub에서 내 프로젝트 확인하기! (2분)</h2>
+<p>브라우저에서 아래 주소로 이동하세요 (내깃허브이름을 본인 이름으로):</p>
+<pre>https://github.com/내깃허브이름/etf-youtube-dashboard</pre>
+<p>내가 만든 파일들이 GitHub 웹사이트에 예쁘게 보여요!</p>
+<p>이 주소를 친구에게 공유하면, 친구도 내 프로젝트를 볼 수 있습니다!</p>
+<div class="tip">
+  💡 .env 파일은 올라가지 않은 것을 확인하세요!<br>
+  (비밀번호가 인터넷에 노출되면 안 되니까요)
+</div>
+
+<!-- 체크포인트 -->
+<h3>✅ 체크포인트</h3>
+<div class="checkpoint">
+  <ul>
+    <li>GitHub에 가입했나요?</li>
+    <li>etf-youtube-dashboard 저장소를 만들었나요?</li>
+    <li>git push 후 GitHub 웹사이트에서 파일이 보이나요?</li>
+    <li>.env 파일이 GitHub에 올라가지 않았나요? (올라가면 안 돼요!)</li>
+  </ul>
+</div>
+
+<!-- 막혔을 때 -->
+<h3>🚨 막혔을 때</h3>
+<table>
+  <tr><th>증상</th><th>원인</th><th>해결법</th></tr>
+  <tr><td>git push에서 "Authentication failed"</td><td>로그인 실패</td><td>브라우저에서 GitHub 로그인 확인. git push 다시 실행하면 로그인 창이 뜰 수 있어요</td></tr>
+  <tr><td>"remote origin already exists"</td><td>이미 연결됨</td><td><code>git remote remove origin</code> 먼저 실행 후 다시 <code>git remote add...</code></td></tr>
+  <tr><td>"Repository not found"</td><td>저장소 이름 불일치</td><td>GitHub 웹에서 저장소 이름 확인 후 URL 정확히 입력</td></tr>
+  <tr><td>아무것도 안 올라가요</td><td>add/commit 미실행</td><td><code>git add .</code> → <code>git commit -m "메시지"</code> → <code>git push</code> 순서대로 다시</td></tr>
+  <tr><td>"Author identity unknown" 에러</td><td>Git에 이름/이메일 미등록</td><td><code>git config user.name "이름"</code>과 <code>git config user.email "이메일"</code> 실행</td></tr>
+</table>
+
+<!-- 완료 -->
+<div class="final">
+  <h2>🎉🎉🎉 4회차 & 전체 강의 완료!</h2>
+  <h2>축하합니다!!!</h2>
+</div>
+
+<p>4회에 걸쳐 여러분은:</p>
+<div class="roadmap">
+  <div class="roadmap-item"><div class="roadmap-num done-num">1</div><div>터미널(까만 화면)을 두려움 없이 사용하게 되었고</div></div>
+  <div class="roadmap-item"><div class="roadmap-num done-num">2</div><div>PowerShell, CMD, Git Bash의 차이를 알게 되었고</div></div>
+  <div class="roadmap-item"><div class="roadmap-num done-num">3</div><div>Git이라는 개발자 필수 도구를 설치했고</div></div>
+  <div class="roadmap-item"><div class="roadmap-num done-num">4</div><div>Node.js와 Python이라는 프로그래밍 도구를 설치했고</div></div>
+  <div class="roadmap-item"><div class="roadmap-num done-num">5</div><div>AI(Claude Code)와 대화하며 프로그램을 만들었고</div></div>
+  <div class="roadmap-item"><div class="roadmap-num done-num">6</div><div>유튜브 API로 실제 데이터를 수집했고</div></div>
+  <div class="roadmap-item"><div class="roadmap-num done-num">7</div><div>그 데이터를 예쁜 대시보드로 시각화했고</div></div>
+  <div class="roadmap-item"><div class="roadmap-num done-num">8</div><div>GitHub에 내 프로젝트를 올려서 세상과 공유했습니다!</div></div>
+</div>
+
+<p>이 경험을 바탕으로 더 다양한 프로젝트에 도전해보세요.<br>
+Claude Code에게 부탁하면 거의 모든 것을 만들 수 있습니다!</p>
+
+<h3>💡 다음에 도전해볼 것들</h3>
+<div class="next-list">
+  <p>• 다른 키워드(예: "비트코인", "부동산")로 데이터 수집해보기</p>
+  <p>• 대시보드에 검색 기능 추가해보기</p>
+  <p>• 매일 자동으로 데이터를 모아오게 만들기</p>
+  <p>• 수집 데이터를 엑셀 파일로 저장하기</p>
+  <p>• 친구와 함께 GitHub에서 협업해보기</p>
+</div>
+
+<div class="nav">
+  <a href="session3.html">← 3회차로</a>
+  <a href="session1.html">처음부터 →</a>
+</div>
+
+</div>
+</body>
+</html>
