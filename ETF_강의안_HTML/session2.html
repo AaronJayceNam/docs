@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>2회차: Python 설치 + YouTube API 키 발급</title>
+<title>2회차: 어디서든 Claude! 그리고 MCP로 초능력 장착!</title>
 <style>
   :root { --bg: #0f172a; --card: #1e293b; --accent: #3b82f6; --green: #22c55e; --red: #ef4444; --yellow: #eab308; --text: #e2e8f0; --muted: #94a3b8; --border: #334155; }
   * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -14,6 +14,7 @@
   h3 { font-size: 1.1em; color: var(--yellow); margin: 25px 0 10px; }
   p { margin: 8px 0; }
   .badge { display: inline-block; background: var(--accent); color: #fff; padding: 4px 16px; border-radius: 20px; font-size: 0.9em; font-weight: 600; margin: 5px 0; }
+  .badge-green { background: var(--green); }
   .goal { background: rgba(34,197,94,0.1); border: 1px solid rgba(34,197,94,0.3); padding: 15px 20px; border-radius: 10px; margin: 10px 0 25px; font-weight: 500; }
   pre { background: #0d1117; border: 1px solid var(--border); border-radius: 8px; padding: 15px 20px; margin: 10px 0; overflow-x: auto; font-family: 'Consolas', 'Courier New', monospace; font-size: 0.95em; color: #7ee787; }
   .note { background: rgba(59,130,246,0.1); border-left: 4px solid var(--accent); padding: 12px 18px; border-radius: 0 8px 8px 0; margin: 12px 0; }
@@ -21,7 +22,7 @@
   .warning { background: rgba(239,68,68,0.1); border-left: 4px solid var(--red); padding: 12px 18px; border-radius: 0 8px 8px 0; margin: 12px 0; }
   .checkpoint { background: rgba(34,197,94,0.08); border: 1px solid rgba(34,197,94,0.2); border-radius: 10px; padding: 15px 20px; margin: 15px 0; }
   .checkpoint li { list-style: none; padding: 5px 0; }
-  .checkpoint li::before { content: "✅ "; }
+  .checkpoint li::before { content: "\2705 "; }
   table { width: 100%; border-collapse: collapse; margin: 15px 0; font-size: 0.9em; }
   th { background: var(--accent); color: #fff; padding: 10px 12px; text-align: left; }
   td { padding: 10px 12px; border-bottom: 1px solid var(--border); }
@@ -29,11 +30,17 @@
   .nav { display: flex; justify-content: space-between; align-items: center; padding: 20px 0; margin-top: 30px; border-top: 1px solid var(--border); }
   .nav a { color: var(--accent); text-decoration: none; font-weight: 600; padding: 8px 20px; border: 1px solid var(--accent); border-radius: 8px; transition: 0.2s; }
   .nav a:hover { background: var(--accent); color: #fff; }
+  .compare-box { display: grid; gap: 12px; margin: 15px 0; }
+  .compare-item { background: var(--card); border: 1px solid var(--border); border-radius: 10px; padding: 15px 20px; }
+  .compare-item strong { color: var(--accent); }
   .session-header { text-align: center; padding: 40px 20px; background: linear-gradient(135deg, #1e3a5f 0%, #0f172a 100%); border-radius: 16px; margin-bottom: 30px; }
   .session-header .num { font-size: 3em; font-weight: 800; color: var(--accent); }
   .session-header h1 { border: none; font-size: 1.5em; margin: 10px 0 0; }
   .done { text-align: center; padding: 30px; background: linear-gradient(135deg, rgba(34,197,94,0.15), rgba(34,197,94,0.05)); border-radius: 16px; margin: 30px 0; }
   .done p { font-size: 1.1em; }
+  .mcp-card { background: var(--card); border: 1px solid var(--border); border-radius: 10px; padding: 15px 20px; margin: 8px 0; }
+  .mcp-card strong { color: var(--green); }
+  .mcp-card .mcp-desc { color: var(--muted); font-size: 0.95em; }
 </style>
 </head>
 <body>
@@ -41,153 +48,654 @@
 
 <div class="session-header">
   <div class="num">2</div>
-  <h1>Python 설치 + YouTube API 키 발급</h1>
-  <span class="badge">⏱️ 35분</span>
+  <h1>어디서든 Claude! 그리고 MCP로 초능력 장착!</h1>
+  <span class="badge">&#9201;&#65039; 75분</span>
 </div>
 
-<div class="goal">🎯 <strong>이 회차를 마치면:</strong> Python이 설치되고, 유튜브에서 데이터를 가져올 수 있는 열쇠(API 키)를 갖게 되고, 데이터 수집 프로그램까지 만들어져요!</div>
+<div class="goal">&#127919; <strong>이 회차를 마치면:</strong> 왜 Claude Code가 대세인지 이해하고, 명령 프롬프트(cmd)에서도 실행할 수 있고, MCP를 통해 Claude가 웹 브라우저를 직접 조종하는 모습을 볼 수 있어요! ETF 시장 조사부터 책에 대한 유튜브 반응 분석까지 실전 활용을 체험합니다!</div>
 
-<!-- Step 1 -->
-<h2>Step 1. Python 설치하기 (10분)</h2>
+<!-- ==================== 왜 Claude Code인가 ==================== -->
+<h1>Part A. 잠깐! 왜 Claude Code인가요? (10분)</h1>
+
+<h2>Step 1. 웹 Claude vs Claude Code CLI</h2>
 <div class="note">
-  📌 <strong>Python(파이썬)이 뭔가요?</strong><br>
-  컴퓨터 프로그래밍 언어예요. 영어처럼 읽기 쉬워서 초보자에게 인기가 많아요.<br>
-  우리는 데이터를 수집할 때 Python을 사용할 거예요.
+  &#128204; 혹시 이런 생각 해보셨나요?<br>
+  "그냥 웹사이트(claude.ai)에서 쓰면 되는 거 아닌가? 왜 굳이 까만 창에서 써야 해?"<br><br>
+  정말 좋은 질문이에요! 둘 다 같은 Claude AI인데, <strong>할 수 있는 일이 완전히 달라요.</strong>
 </div>
-<p>브라우저에서 아래 주소로 이동하세요:</p>
-<pre>https://www.python.org/downloads/</pre>
-<p>노란색 <strong>"Download Python 3.x.x"</strong> 버튼을 클릭하세요.</p>
-<p>다운로드된 파일을 실행하면 설치 화면이 나옵니다.</p>
+
+<div class="compare-box">
+  <div class="compare-item">
+    <strong>&#127760; 웹 Claude (claude.ai) = "전화 상담"</strong>
+    <p>브라우저에서 대화창에 글을 입력하면 Claude가 답변해줘요.</p>
+    <p>&#8226; 질문하면 답변해줌 &#9989;<br>
+    &#8226; 글 써달라고 하면 써줌 &#9989;<br>
+    &#8226; 코드를 보여달라고 하면 화면에 보여줌 &#9989;</p>
+    <p style="color: var(--red);">&#8226; 내 컴퓨터에 파일을 직접 만들어줌? &#10060;<br>
+    &#8226; 프로그램을 직접 설치해줌? &#10060;<br>
+    &#8226; 웹사이트를 열어서 조사해줌? &#10060;<br>
+    &#8226; 내 프로젝트 폴더를 읽고 수정? &#10060;</p>
+  </div>
+  <div class="compare-item" style="border-color: var(--green);">
+    <strong>&#128187; Claude Code (CLI) = "출장 전문가"</strong>
+    <p>터미널에서 실행하면 Claude가 내 컴퓨터에 직접 와서 일해줘요!</p>
+    <p>&#8226; 질문하면 답변해줌 &#9989;<br>
+    &#8226; 글 써달라고 하면 써줌 &#9989;<br>
+    &#8226; 코드를 보여달라고 하면 화면에 보여줌 &#9989;</p>
+    <p style="color: var(--green);"><strong>&#8226; 내 컴퓨터에 파일을 직접 만들어줌! &#9989;<br>
+    &#8226; 프로그램을 직접 설치해줌! &#9989;<br>
+    &#8226; 웹사이트를 열어서 조사해줌! &#9989; (MCP 사용)<br>
+    &#8226; 내 프로젝트 폴더를 읽고 수정! &#9989;</strong></p>
+  </div>
+</div>
+
+<div class="note">
+  &#128204; <strong>한 줄 비유:</strong><br>
+  웹 Claude = 전화로 "이렇게 해보세요~" 라고 <strong>말만</strong> 해주는 상담사<br>
+  Claude Code = 직접 우리 집에 와서 <strong>손으로 해주는</strong> 출장 전문가
+</div>
+
+<h2>Step 2. 왜 사람들이 Claude Code에 열광할까?</h2>
+
+<div class="compare-box">
+  <div class="compare-item">
+    <strong>&#9312; "말만 하면 프로그램이 완성돼요"</strong>
+    <p>웹 Claude: "이런 코드를 작성하세요" &#8594; 내가 복사해서 붙여넣고, 파일 만들고, 실행해야 함<br>
+    Claude Code: "유튜브 대시보드 만들어줘" &#8594; <strong>파일 생성부터 실행까지 다 해줌!</strong></p>
+  </div>
+  <div class="compare-item">
+    <strong>&#9313; "내 컴퓨터를 이해해요"</strong>
+    <p>웹 Claude: 내 컴퓨터에 뭐가 설치됐는지, 어떤 파일이 있는지 전혀 모름<br>
+    Claude Code: <strong>내 폴더 구조, 설치된 프로그램, 파일 내용을 다 파악</strong>하고 맞춤 작업</p>
+  </div>
+  <div class="compare-item">
+    <strong>&#9314; "MCP로 초능력 추가 가능"</strong>
+    <p>웹 Claude: 정해진 기능만 사용 가능<br>
+    Claude Code: MCP를 장착하면 <strong>웹 브라우저 조종, 파일 관리, 데이터베이스 연결</strong> 등 무한 확장!</p>
+  </div>
+  <div class="compare-item">
+    <strong>&#9315; "대화가 아니라 '작업'을 시킬 수 있어요"</strong>
+    <p>웹 Claude: "이렇게 하면 됩니다" (설명)<br>
+    Claude Code: "다 만들었습니다. 실행해볼까요?" <strong>(실제 실행)</strong></p>
+  </div>
+</div>
+
+<div class="tip">
+  &#128161; <strong>실제 사례:</strong><br>
+  1회차에서 "유튜브 모니터 대시보드 만들어줘"라고 했을 때 기억나시죠?<br>
+  웹 Claude였다면 코드만 보여주고 끝이었을 거예요.<br>
+  Claude Code는 <strong>파일을 만들고, 필요한 패키지를 설치하고, 실행까지</strong> 해줬어요!<br><br>
+  이것이 바로 전 세계 개발자들이 Claude Code에 열광하는 이유입니다.
+</div>
+
+<!-- ==================== 복습 ==================== -->
+<h1>Part B. 지난 시간 복습 (5분)</h1>
+
+<h2>Step 3. 1회차에서 배운 것 돌아보기</h2>
+<p>지난 시간에 우리가 한 일을 기억해봅시다:</p>
+
+<div class="compare-box">
+  <div class="compare-item">
+    <strong>1) Windows Terminal 설치</strong>
+    <p>컴퓨터와 대화하는 "까만 창"을 설치했어요.</p>
+  </div>
+  <div class="compare-item">
+    <strong>2) Git &amp; Git Bash 설치</strong>
+    <p>코드 타임머신(Git)과 Claude가 잘 동작하는 터미널(Git Bash)을 설치했어요.</p>
+  </div>
+  <div class="compare-item">
+    <strong>3) Node.js 설치</strong>
+    <p>Claude Code를 돌리는 엔진을 설치했어요.</p>
+  </div>
+  <div class="compare-item">
+    <strong>4) Claude Code 설치 &amp; 첫 실행</strong>
+    <p><code>npm install -g @anthropic-ai/claude-code</code>로 AI 비서를 설치하고, 유튜브 대시보드를 만들어달라고 부탁했어요!</p>
+  </div>
+</div>
+
+<h2>Step 4. 설치가 잘 되어 있는지 확인</h2>
+<p>Git Bash를 열고 아래 명령어를 하나씩 입력해보세요:</p>
+<pre>git --version</pre>
+<pre>node --version</pre>
+<pre>claude --version</pre>
+<p>세 가지 모두 숫자(버전)가 나오면 OK!</p>
+<div class="tip">&#128161; 만약 하나라도 안 되면 1회차 강의안을 다시 보면서 설치해주세요.</div>
+
+<!-- ==================== CMD에서 실행 ==================== -->
+<h1>Part C. 명령 프롬프트(cmd)에서 Claude 실행하기 (10분)</h1>
+
+<h2>Step 5. 명령 프롬프트(cmd)가 뭔가요?</h2>
+<div class="note">
+  &#128204; 지난 시간에 터미널 종류를 배웠죠? 다시 정리하면:<br><br>
+  &#8226; <strong>명령 프롬프트(cmd)</strong> = 윈도우에 원래 있는 기본 터미널 (자전거 &#128690;)<br>
+  &#8226; <strong>PowerShell</strong> = cmd의 업그레이드 버전 (전동 자전거 &#128757;)<br>
+  &#8226; <strong>Git Bash</strong> = Git과 함께 온 특별한 터미널 (전동 킥보드 &#128756;)<br><br>
+  지난 시간엔 Git Bash에서만 Claude를 실행했는데,<br>
+  <strong>사실 명령 프롬프트(cmd)에서도 Claude를 실행할 수 있어요!</strong>
+</div>
+
+<h2>Step 6. cmd에서 Claude 실행해보기</h2>
+<p>윈도우 키를 누르고 아래를 검색하세요:</p>
+<pre>cmd</pre>
+<p>"명령 프롬프트"가 나오면 클릭! 까만 창이 열려요.</p>
+<p>이제 Claude를 실행해봅시다:</p>
+<pre>claude</pre>
+<p>&#127881; 잘 실행되면 축하해요! 바로 Step 8로 넘어가세요.</p>
 
 <div class="warning">
-  ⚠️ <strong>가장 중요한 순간!</strong><br>
-  맨 아래에 <strong>"Add python.exe to PATH"</strong>라는 체크박스가 보입니다.<br>
-  이것을 <strong>반.드.시.</strong> 체크하세요!<br>
-  (체크 안 하면 나중에 python 명령어가 안 먹어서 큰 문제가 생겨요)
+  &#9888;&#65039; <strong>"'claude'은(는) 내부 또는 외부 명령...이 아닙니다"</strong> 라고 나왔나요?<br>
+  걱정 마세요! 이건 컴퓨터가 Claude가 어디 있는지 모르는 거예요.<br>
+  바로 다음 Step에서 길을 알려줄 거예요!
 </div>
 
-<p>체크한 후 <strong>"Install Now"</strong>를 클릭하세요.</p>
-<p>설치가 끝나면 "Close"를 누르세요.</p>
-<p>Git Bash를 껐다가 다시 열고 확인:</p>
-<pre>python --version</pre>
-<p><code>Python 3.x.x</code>가 나오면 성공!</p>
-<pre>pip --version</pre>
-<div class="note">📌 pip = Python의 앱스토어. 필요한 재료를 설치하는 도구. 숫자가 나오면 OK!</div>
-
-<!-- Step 2 -->
-<h2>Step 2. Google Cloud Console 접속 (3분)</h2>
+<h2>Step 7. Claude 경로(PATH) 설정하기</h2>
 <div class="note">
-  📌 <strong>API 키가 뭔가요?</strong><br>
-  "출입증"이에요. 놀이공원에 입장권이 필요하듯, 유튜브 데이터를 가져오려면 구글이 발급해주는 출입증(API 키)이 필요합니다.<br>
-  이 출입증은 <strong>무료</strong>예요! (하루 사용 횟수 제한만 있어요)
-</div>
-<p>브라우저에서 아래 주소로 이동하세요:</p>
-<pre>https://console.cloud.google.com</pre>
-<p>구글 계정으로 로그인하세요. (지메일 있으면 OK!)</p>
-
-<!-- Step 3 -->
-<h2>Step 3. 새 프로젝트 만들기 (3분)</h2>
-<p>화면 왼쪽 위 <strong>"프로젝트 선택"</strong> (또는 "Select a project") 클릭</p>
-<p><strong>"새 프로젝트"</strong> (또는 "New Project") 클릭</p>
-<p>프로젝트 이름에 아래처럼 입력:</p>
-<pre>etf-youtube-dashboard</pre>
-<p><strong>"만들기"</strong> (또는 "Create") 클릭. 잠시 기다리면 프로젝트가 만들어집니다.</p>
-
-<!-- Step 4 -->
-<h2>Step 4. YouTube Data API 활성화 (3분)</h2>
-<p>왼쪽 메뉴: <strong>"API 및 서비스"</strong> → <strong>"라이브러리"</strong><br>
-(영어: "APIs & Services" → "Library")</p>
-<p>검색창에 입력:</p>
-<pre>YouTube Data API v3</pre>
-<p>"YouTube Data API v3" 클릭 → 파란색 <strong>"사용"</strong> (Enable) 버튼 클릭</p>
-<div class="note">📌 이 단계는 "유튜브 데이터 택배 서비스를 신청합니다"라는 뜻!</div>
-
-<!-- Step 5 -->
-<h2>Step 5. API 키 만들기 (3분)</h2>
-<p>왼쪽 메뉴: <strong>"API 및 서비스"</strong> → <strong>"사용자 인증 정보"</strong><br>
-(영어: "APIs & Services" → "Credentials")</p>
-<p><strong>"+ 사용자 인증 정보 만들기"</strong> → <strong>"API 키"</strong> 클릭</p>
-<p>API 키가 생성됩니다! 이런 모양의 긴 글자:</p>
-<pre>AIzaSyD-xxxxxxxxxxxxxxxxxxxxxxxxx</pre>
-<div class="warning">
-  ⚠️ <strong>매우 중요:</strong> 이 키를 복사해서 메모장에 저장하세요!<br>
-  비밀번호처럼 남에게 보여주면 안 됩니다!
+  &#128204; <strong>경로(PATH)가 뭔가요?</strong><br>
+  비유: 친구 집에 놀러 가려면 "주소"를 알아야 하죠?<br>
+  컴퓨터도 프로그램을 실행하려면 "그 프로그램이 어디에 있는지" 알아야 해요.<br>
+  PATH는 "자주 가는 주소 목록"이에요. 여기에 Claude의 주소를 추가해주면 어디서든 claude를 실행할 수 있어요!
 </div>
 
-<!-- Step 6 -->
-<h2>Step 6. API 키를 프로젝트에 저장 (3분)</h2>
-<p>Git Bash에서:</p>
-<pre>cd ~/etf-dashboard
-echo "YOUTUBE_API_KEY=여러분의_API_키_여기에" &gt; .env</pre>
-<p>("여러분의_API_키_여기에" 부분에 아까 복사한 키를 붙여넣으세요)</p>
-<div class="note">📌 .env 파일은 "비밀 메모장"이에요. 프로그램이 필요할 때 여기서 API 키를 꺼내 씁니다.</div>
-<p>잘 저장됐는지 확인:</p>
-<pre>cat .env</pre>
-<p>결과:</p>
-<pre>YOUTUBE_API_KEY=AIzaSyD-xxxxxxxxxxxxxxxxxxxxxxxxx</pre>
+<h3>&#9312; 먼저 Claude가 어디 설치됐는지 찾기</h3>
+<p>Git Bash를 열고 아래 명령어를 입력하세요:</p>
+<pre>where claude</pre>
+<p>이런 결과가 나올 거예요 (사람마다 조금 다를 수 있어요):</p>
+<pre>C:\Users\여러분이름\AppData\Roaming\npm\claude</pre>
+<div class="tip">&#128161; 이 경로를 마우스로 드래그해서 선택한 뒤 <strong>Ctrl+C</strong>로 복사해두세요!</div>
 
-<!-- Step 7 -->
-<h2>Step 7. Claude에게 데이터 수집 프로그램 만들어달라고 부탁 (5분)</h2>
+<h3>&#9313; PATH에 추가하기 (그림으로 따라하기)</h3>
+<p><strong>1단계:</strong> 윈도우 키를 누르고 아래를 검색하세요:</p>
+<pre>환경 변수</pre>
+<p>"시스템 환경 변수 편집"을 클릭하세요.</p>
+
+<p><strong>2단계:</strong> "시스템 속성" 창이 뜨면 아래쪽 <strong>"환경 변수(N)..."</strong> 버튼을 클릭하세요.</p>
+
+<p><strong>3단계:</strong> 위쪽 "사용자 변수" 목록에서 <strong>"Path"</strong>를 찾아 클릭하고 <strong>"편집(E)..."</strong> 버튼 클릭</p>
+
+<p><strong>4단계:</strong> <strong>"새로 만들기(N)"</strong> 버튼 클릭 후, 아까 복사한 경로에서 <strong>폴더 부분만</strong> 붙여넣기:</p>
+<pre>C:\Users\여러분이름\AppData\Roaming\npm</pre>
+<div class="note">&#128204; <strong>주의!</strong> 끝에 <code>\claude</code>는 빼고, 폴더 경로만 넣으세요!<br>
+(예: <code>C:\Users\홍길동\AppData\Roaming\npm\claude</code>에서 <code>\claude</code>를 지운 것)</div>
+
+<p><strong>5단계:</strong> "확인" 버튼을 3번 눌러서 모든 창을 닫으세요.</p>
+
+<h3>&#9314; 확인하기</h3>
+<div class="warning">&#9888;&#65039; <strong>중요:</strong> 열려 있던 cmd 창을 <strong>모두 닫고</strong> 새로 열어야 합니다!<br>
+(환경 변수는 새로 열리는 창부터 적용돼요)</div>
+<p>cmd를 새로 열고:</p>
+<pre>claude --version</pre>
+<p>버전 숫자가 나오면 성공!</p>
+<pre>claude</pre>
+<p>&#127881; 이제 명령 프롬프트에서도 Claude Code가 실행됩니다!</p>
+
+<div class="checkpoint">
+  <h3>&#9989; 중간 체크포인트</h3>
+  <ul>
+    <li>cmd에서 <code>claude --version</code>을 쳤을 때 숫자가 나왔나요?</li>
+    <li>cmd에서 <code>claude</code>를 쳤을 때 Claude Code가 실행되나요?</li>
+  </ul>
+</div>
+
+<!-- ==================== MCP ==================== -->
+<h1>Part D. MCP가 뭔가요? (10분)</h1>
+
+<h2>Step 8. MCP 쉽게 이해하기</h2>
 <div class="note">
-  📌 <strong>이번 Step의 핵심:</strong> 우리가 직접 코드를 쓰지 않아요!<br>
-  Claude AI에게 "이런 프로그램 만들어줘"라고 말하면, AI가 대신 만들어줍니다.
+  &#128204; <strong>MCP = Model Context Protocol (모델 컨텍스트 프로토콜)</strong><br><br>
+  어려운 이름이지만 쉽게 설명하면:<br><br>
+  Claude는 매우 똑똑한 AI이지만, 기본 상태에서는 할 수 없는 것들이 있어요:<br>
+  &#8226; 웹사이트를 직접 열어서 보기 &#10060;<br>
+  &#8226; 여러분의 구글 캘린더 확인하기 &#10060;<br>
+  &#8226; 파일을 검색하거나 정리하기 &#10060;<br><br>
+  <strong>MCP는 Claude에게 "초능력"을 추가해주는 장치예요!</strong>
 </div>
+
+<div class="compare-box">
+  <div class="compare-item">
+    <strong>&#127918; 비유: 게임 캐릭터의 아이템</strong>
+    <p>게임에서 캐릭터가 맨몸이면 힘이 약하지만, 칼을 장착하면 공격이 세지고, 방패를 장착하면 방어가 되죠?</p>
+    <p>MCP도 똑같아요!</p>
+    <p>&#8226; <strong>Playwright MCP</strong>를 장착하면 &#8594; Claude가 웹 브라우저를 조종 가능! &#127760;</p>
+    <p>&#8226; <strong>파일 시스템 MCP</strong>를 장착하면 &#8594; Claude가 폴더/파일을 정리 가능! &#128193;</p>
+    <p>&#8226; <strong>GitHub MCP</strong>를 장착하면 &#8594; Claude가 GitHub을 사용 가능! &#128025;</p>
+  </div>
+</div>
+
+<div class="note">
+  &#128204; <strong>한 줄 정리:</strong><br>
+  MCP = Claude에게 새로운 능력을 추가해주는 "플러그인" 같은 것!<br>
+  필요한 MCP만 골라서 장착하면, Claude가 훨씬 더 많은 일을 할 수 있어요.
+</div>
+
+<h2>Step 9. 유용한 MCP 구경하기</h2>
+<p>세상에는 다양한 MCP가 있어요. 대표적인 것들을 구경해봅시다:</p>
+
+<div class="mcp-card">
+  <strong>&#127760; Playwright MCP</strong>
+  <p class="mcp-desc">Claude가 웹 브라우저를 직접 열고, 클릭하고, 글을 읽을 수 있게 해줘요. "이 웹사이트에서 정보 좀 가져와줘"가 가능!</p>
+</div>
+
+<div class="mcp-card">
+  <strong>&#128193; Filesystem MCP</strong>
+  <p class="mcp-desc">Claude가 컴퓨터의 파일과 폴더를 읽고, 만들고, 정리할 수 있게 해줘요. "바탕화면 파일 정리해줘"가 가능!</p>
+</div>
+
+<div class="mcp-card">
+  <strong>&#128025; GitHub MCP</strong>
+  <p class="mcp-desc">Claude가 GitHub(개발자들의 코드 저장소)에서 코드를 검색하고, 이슈를 만들 수 있게 해줘요.</p>
+</div>
+
+<div class="mcp-card">
+  <strong>&#128202; Brave Search MCP</strong>
+  <p class="mcp-desc">Claude가 인터넷을 검색할 수 있게 해줘요. "최신 뉴스 찾아줘"가 가능!</p>
+</div>
+
+<div class="mcp-card">
+  <strong>&#128203; Google Drive MCP</strong>
+  <p class="mcp-desc">Claude가 구글 드라이브의 문서를 읽고 편집할 수 있게 해줘요.</p>
+</div>
+
+<div class="tip">&#128161; 이 중에서 오늘은 <strong>Playwright MCP</strong>를 직접 설치해볼 거예요!<br>웹 브라우저를 AI가 조종하는 모습, 정말 신기하답니다!</div>
+
+<!-- ==================== Playwright MCP ==================== -->
+<h1>Part E. Playwright MCP 설치하고 첫 체험! (10분)</h1>
+
+<h2>Step 10. Playwright MCP가 뭔가요?</h2>
+<div class="note">
+  &#128204; <strong>Playwright(플레이라이트)</strong>는 원래 웹 브라우저를 자동으로 조종하는 도구예요.<br><br>
+  비유: 리모컨으로 TV를 조종하듯, Playwright는 "리모컨"으로 웹 브라우저를 조종해요.<br><br>
+  <strong>Playwright MCP</strong> = 이 리모컨을 Claude에게 쥐어주는 것!<br>
+  Claude가 리모컨을 받으면 직접 웹사이트를 열고, 버튼을 클릭하고, 글을 읽을 수 있어요.
+</div>
+
+<div class="compare-box">
+  <div class="compare-item">
+    <strong>Playwright MCP 없을 때</strong>
+    <p>나: "네이버에서 오늘 날씨 알려줘"<br>
+    Claude: "죄송하지만 저는 웹사이트에 접속할 수 없어요..." &#128546;</p>
+  </div>
+  <div class="compare-item" style="border-color: var(--green);">
+    <strong>Playwright MCP 있을 때</strong>
+    <p>나: "네이버에서 오늘 날씨 알려줘"<br>
+    Claude: (브라우저를 열고 네이버에 접속해서 날씨를 확인) "서울 기온은 15도입니다!" &#127881;</p>
+  </div>
+</div>
+
+<h2>Step 11. Playwright MCP 설치하기 - 이것도 Claude에게 부탁!</h2>
+<div class="note">
+  &#128204; <strong>놀라운 점:</strong> MCP 설치도 Claude Code한테 부탁하면 돼요!<br>
+  복잡한 명령어를 외울 필요가 없어요. 그냥 말로 시키면 됩니다.
+</div>
+
+<p>Git Bash 또는 cmd를 열고 프로젝트 폴더로 이동하세요:</p>
+<pre>cd ~/etf-dashboard</pre>
 <p>Claude Code를 실행하세요:</p>
 <pre>claude</pre>
-<p>Claude의 <code>&gt;</code> 프롬프트에 아래 내용을 통째로 복사해서 붙여넣으세요:</p>
-<pre>.env 파일에 YOUTUBE_API_KEY가 저장되어 있어.
-이 키를 사용해서 유튜브에서 ETF 관련 영상을 검색하고
-데이터를 수집하는 Python 프로그램을 만들어줘.
+<p>Claude의 <code>&gt;</code> 프롬프트에서 이렇게 입력하세요:</p>
+<pre>Playwright MCP 설치해줘</pre>
 
-요구사항:
-1. "ETF 투자", "ETF 추천", "ETF 분석" 키워드로 검색
-2. 각 키워드당 최신 영상 10개씩 수집
-3. 수집할 정보: 영상 제목, 채널명, 조회수, 좋아요 수,
-   게시일, 영상 링크
-4. 결과를 etf_youtube_data.json 파일로 저장
-5. python-dotenv를 사용해서 .env에서 API 키 읽기
-6. 실행하면 수집 진행 상황을 보여주기</pre>
-<p>Enter를 누르면 Claude가 코드를 작성하기 시작합니다!</p>
-<div class="tip">💡 Claude가 "파일을 만들어도 될까요?" 같은 질문을 하면 <strong>"y"</strong> 입력 후 Enter</div>
-<p>Claude가 작업을 마치면 <code>/exit</code>으로 나온 후 확인:</p>
-<pre>/exit
-ls</pre>
-<p>이런 파일들이 보여야 해요:</p>
-<pre>.env
-collect_data.py
-requirements.txt</pre>
+<p>&#127881; 이게 끝이에요! Claude가 알아서:</p>
+<p>1. 필요한 패키지를 확인하고<br>
+2. 설치 명령어를 실행하고<br>
+3. MCP 서버를 등록해줍니다</p>
 
-<!-- 체크포인트 -->
-<h3>✅ 체크포인트</h3>
+<div class="tip">
+  &#128161; Claude가 "이 명령어를 실행해도 될까요?" 같은 질문을 하면 <strong>"y"</strong>를 입력하고 Enter!<br><br>
+  <strong>이것이 바로 Claude Code의 힘이에요!</strong><br>
+  웹 Claude였다면 "이런 명령어를 입력하세요"라고 <strong>알려주기만</strong> 했을 거예요.<br>
+  Claude Code는 <strong>직접 설치까지</strong> 해줍니다!
+</div>
+
+<h3>설치 확인하기</h3>
+<p>설치가 끝나면, 한 번 나갔다가 다시 들어올게요:</p>
+<pre>/exit</pre>
+<p>아래 명령어로 MCP가 잘 추가됐는지 확인:</p>
+<pre>claude mcp list</pre>
+<p>"playwright"가 목록에 보이면 성공!</p>
+
+<h2>Step 12. Playwright MCP 첫 체험!</h2>
+<p>다시 Claude를 실행하고:</p>
+<pre>claude</pre>
+<p>Claude의 <code>&gt;</code> 프롬프트에서 아래를 입력해보세요:</p>
+<pre>네이버(naver.com)에 접속해서 메인 뉴스 헤드라인 5개를 알려줘</pre>
+
+<div class="note">
+  &#128204; <strong>무슨 일이 일어나는 거예요?</strong><br>
+  1. Claude가 Playwright MCP를 사용해서 브라우저를 엽니다<br>
+  2. 네이버 웹사이트에 자동으로 접속합니다<br>
+  3. 페이지의 내용을 읽어옵니다<br>
+  4. 읽어온 정보를 정리해서 우리에게 알려줍니다<br><br>
+  이 모든 것이 자동으로 일어나요!
+</div>
+
+<div class="tip">&#128161; Claude가 "도구를 사용해도 될까요?" 같은 질문을 하면 <strong>"y"</strong>를 입력하고 Enter를 누르세요.</div>
+
+<h2>Step 13. 프롬프트 잘 쓰는 법</h2>
+<p>Playwright MCP에게 부탁할 때, <strong>어떻게 말하느냐</strong>에 따라 결과가 달라져요!</p>
+
+<div class="compare-box">
+  <div class="compare-item">
+    <strong>&#128308; 이렇게 말하면 잘 안 돼요</strong>
+    <p>"인터넷에서 뭐 좀 찾아줘" (너무 막연해요)</p>
+    <p>"ETF 정보 알려줘" (어디서 찾으라는 건지 모르겠어요)</p>
+  </div>
+  <div class="compare-item" style="border-color: var(--green);">
+    <strong>&#128994; 이렇게 말하면 잘 돼요</strong>
+    <p>"naver.com에 접속해서 '서울 날씨'를 검색하고 결과를 알려줘" (구체적!)</p>
+    <p>"youtube.com에서 'ETF 투자'를 검색하고 상위 5개 영상 제목을 표로 정리해줘" (사이트 + 행동 + 결과 형식!)</p>
+  </div>
+</div>
+
+<div class="tip">
+  &#128161; <strong>프롬프트 잘 쓰는 공식:</strong><br><br>
+  <strong>"[어떤 사이트]에 접속해서 [무엇을] 찾고, [어떤 형식으로] 정리해줘"</strong><br><br>
+  1. <strong>어떤 사이트</strong>에 갈지 알려주기 (예: naver.com, youtube.com)<br>
+  2. <strong>무엇을</strong> 찾을지 구체적으로 말하기 (예: "ETF 검색 결과 상위 5개")<br>
+  3. <strong>결과를 어떻게</strong> 정리할지 말하기 (예: "표로 정리해줘", "파일로 저장해줘")
+</div>
+
+<!-- ==================== Part F: ETF 실전 ==================== -->
+<h1>Part F. 실전! Playwright로 ETF 시장 조사하기 (15분)</h1>
+
+<h2>Step 14. ETF 시장 동향 파악하기</h2>
+<p>이제 진짜 업무에 쓸 수 있는 프롬프트를 배워봅시다! 하나씩 따라해보세요.</p>
+
+<h3>&#9312; ETF 인기 영상 트렌드 파악</h3>
+<pre>유튜브(youtube.com)에 접속해서 "ETF 투자"를 검색하고,
+상위 10개 영상의 제목, 채널명, 조회수, 업로드 날짜를
+표로 정리해줘.
+
+그리고 최근 어떤 ETF 주제가 인기인지
+트렌드를 한 줄로 요약해줘.</pre>
+
+<div class="note">
+  &#128204; <strong>이 프롬프트의 포인트:</strong><br>
+  &#8226; "상위 10개"로 범위를 정해줌<br>
+  &#8226; "제목, 채널명, 조회수, 업로드 날짜"로 필요한 정보를 구체적으로 지정<br>
+  &#8226; "표로 정리"로 결과 형식을 지정<br>
+  &#8226; 마지막에 "트렌드 요약"까지 부탁 &rarr; AI가 분석까지 해줘요!
+</div>
+
+<h3>&#9313; ETF 관련 뉴스 모아보기</h3>
+<pre>네이버 뉴스(news.naver.com)에 접속해서
+"ETF"로 검색하고, 최신 뉴스 5개의
+제목, 언론사, 날짜, 핵심 내용 한 줄 요약을
+표로 정리해줘.</pre>
+
+<h3>&#9314; 경쟁사 ETF 유튜브 채널 분석</h3>
+<pre>유튜브(youtube.com)에 접속해서 "ETF 추천 2025"를 검색하고,
+상위 10개 영상을 분석해줘.
+
+다음 내용을 정리해줘:
+1. 어떤 채널들이 ETF 콘텐츠를 많이 만드는지
+2. 영상 제목에 자주 등장하는 키워드
+3. 조회수가 높은 영상의 공통점
+4. 결과를 표로 정리하고 마지막에 인사이트 요약</pre>
+
+<div class="tip">
+  &#128161; <strong>프롬프트 고급 팁:</strong> 이렇게 번호를 매겨서 여러 가지를 한 번에 부탁하면,<br>
+  Claude가 각 항목별로 깔끔하게 정리해줘요!
+</div>
+
+<h3>&#9315; ETF 수익률 비교 조사</h3>
+<pre>네이버 금융(finance.naver.com)에 접속해서
+국내 ETF 순위를 확인하고,
+수익률 상위 10개 ETF의 이름, 현재가, 수익률을
+표로 정리해줘.</pre>
+
+<h3>&#9316; ETF 관련 블로그 반응 조사</h3>
+<pre>네이버(naver.com)에서 "ETF 투자 후기"를 블로그 탭에서 검색하고,
+최근 인기 글 5개의 제목과 핵심 내용을 요약해줘.
+
+개인 투자자들이 ETF에 대해 어떤 반응인지
+긍정/부정/중립으로 분류해서 알려줘.</pre>
+
+<div class="note">
+  &#128204; <strong>이런 게 왜 유용한가요?</strong><br>
+  직접 네이버, 유튜브를 돌아다니면 1시간 넘게 걸릴 조사를,<br>
+  Claude에게 프롬프트 하나로 부탁하면 <strong>몇 분 만에</strong> 끝낼 수 있어요!<br>
+  이게 바로 AI를 활용한 "스마트한 업무 처리"입니다.
+</div>
+
+<h2>Step 15. Playwright 활용: 다양한 업무 시나리오</h2>
+<p>ETF 외에도 이런 것들을 할 수 있어요. 나중에 필요할 때 써보세요!</p>
+
+<div class="compare-box">
+  <div class="compare-item">
+    <strong>&#128176; 시장 조사</strong>
+    <p>프롬프트 예시:</p>
+    <pre>한국거래소(krx.co.kr)에 접속해서
+오늘 ETF 거래량 상위 종목을 확인하고 정리해줘</pre>
+  </div>
+  <div class="compare-item">
+    <strong>&#128240; 경쟁사 모니터링</strong>
+    <p>프롬프트 예시:</p>
+    <pre>유튜브에서 "삼성 ETF", "미래에셋 ETF", "KB ETF"를
+각각 검색해서 최신 영상 3개씩 비교 정리해줘.
+어떤 회사가 유튜브 콘텐츠에 가장 적극적인지 분석해줘.</pre>
+  </div>
+  <div class="compare-item">
+    <strong>&#128200; 해외 시장 확인</strong>
+    <p>프롬프트 예시:</p>
+    <pre>야후 파이낸스(finance.yahoo.com)에 접속해서
+미국 ETF 중 거래량 상위 5개를 확인하고
+각 ETF의 이름, 가격, 일간 변동률을 표로 정리해줘</pre>
+  </div>
+</div>
+
+<!-- ==================== Part G: 책 반응 분석 ==================== -->
+<h1>Part G. 실전! 책에 대한 유튜브 반응 분석하기 (20분)</h1>
+
+<h2>Step 16. 왜 유튜브 반응을 분석할까요?</h2>
+<div class="note">
+  &#128204; 책을 출판하고 나면, 독자들이 어떻게 반응하는지 아는 것이 매우 중요해요.<br><br>
+  특히 <strong>2쇄(두 번째 인쇄)</strong>를 준비할 때는:<br>
+  &#8226; 독자들이 어떤 부분을 좋아했는지?<br>
+  &#8226; 어떤 부분이 어렵다고 했는지?<br>
+  &#8226; 추가해달라는 내용이 있는지?<br><br>
+  이런 정보를 모아야 더 좋은 책을 만들 수 있어요.<br>
+  유튜브에는 책 리뷰, 서평 영상이 많기 때문에 <strong>진짜 독자 반응</strong>을 확인하기 좋습니다!
+</div>
+
+<h2>Step 17. 유튜브에서 책 반응 검색하기</h2>
+<p>Claude에게 아래 프롬프트를 입력해보세요:</p>
+
+<h3>&#9312; 기본 검색: 저자명으로 영상 찾기</h3>
+<pre>유튜브(youtube.com)에 접속해서 "배재규"를 검색하고,
+관련 영상 10개의 제목, 채널명, 조회수, 업로드 날짜를
+표로 정리해줘.
+
+어떤 영상이 가장 인기 있는지,
+영상들의 주요 주제가 무엇인지 분석해줘.</pre>
+
+<div class="tip">&#128161; 저자 이름으로 검색하면 인터뷰, 서평, 강연 등 다양한 영상이 나와요!</div>
+
+<h3>&#9313; 책 제목으로 검색하기</h3>
+<pre>유튜브(youtube.com)에서 "배재규 ETF"를 검색하고,
+나오는 영상들을 분석해줘.
+
+다음 내용을 정리해줘:
+1. 영상 목록 (제목, 채널명, 조회수) - 표로
+2. 영상들이 책의 어떤 내용을 주로 다루는지
+3. 댓글이나 영상 설명에서 보이는 독자 반응 키워드
+4. 전반적인 반응이 긍정적인지 부정적인지 평가</pre>
+
+<h3>&#9314; 서평/리뷰 영상 깊이 분석</h3>
+<pre>유튜브에서 "배재규" 검색 결과 중
+조회수가 가장 높은 영상 하나에 들어가서,
+영상 설명(더보기)과 댓글 내용을 읽어줘.
+
+다음을 분석해줘:
+1. 영상에서 다루는 핵심 주제
+2. 댓글에서 사람들이 가장 많이 언급하는 내용
+3. 칭찬하는 부분 vs 아쉬워하는 부분
+4. 독자들이 더 알고 싶어하는 주제</pre>
+
+<div class="note">
+  &#128204; <strong>댓글 분석이 강력한 이유:</strong><br>
+  책 리뷰 영상의 댓글에는 진짜 독자들의 솔직한 의견이 있어요.<br>
+  "이 부분이 도움됐다", "이건 좀 어려웠다" 같은 피드백을<br>
+  AI가 자동으로 분류해주니까 엄청 편합니다!
+</div>
+
+<h2>Step 18. 온라인 서점에서 독자 리뷰 분석하기</h2>
+
+<h3>&#9312; 네이버 책 리뷰 모아보기</h3>
+<pre>네이버(naver.com)에서 "배재규" 책을 검색하고,
+네이버 책(book) 탭에서 나오는 책 정보와
+독자 리뷰를 최대한 많이 읽어서 정리해줘.
+
+다음을 분석해줘:
+1. 평점 분포 (별점이 어떻게 분포하는지)
+2. 긍정 리뷰에서 반복되는 키워드 Top 5
+3. 부정 리뷰에서 반복되는 키워드 Top 5
+4. 독자들이 가장 유용했다고 꼽는 챕터나 내용
+5. "이런 내용도 있었으면 좋겠다"는 요청 사항</pre>
+
+<h3>&#9313; 알라딘/YES24 리뷰 비교</h3>
+<pre>알라딘(aladin.co.kr)에 접속해서 "배재규"를 검색하고,
+책의 독자 리뷰를 읽어줘.
+
+그 다음 YES24(yes24.com)에서도 같은 책을 검색해서
+리뷰를 읽어줘.
+
+두 사이트의 리뷰를 비교해서:
+1. 공통적으로 나오는 칭찬 포인트
+2. 공통적으로 나오는 개선 요청
+3. 사이트별로 다른 반응이 있다면 정리
+이렇게 비교 분석해줘.</pre>
+
+<div class="tip">
+  &#128161; <strong>여러 사이트를 비교하는 이유:</strong><br>
+  유튜브, 네이버, 알라딘, YES24 &mdash; 각 플랫폼의 독자층이 달라요.<br>
+  여러 곳의 반응을 종합하면 더 정확한 그림이 나옵니다!
+</div>
+
+<h2>Step 19. 2쇄를 위한 개선 방향 잡기</h2>
+<div class="note">
+  &#128204; 이제 가장 중요한 단계! 앞에서 모은 정보를 바탕으로,<br>
+  <strong>2쇄(두 번째 인쇄)를 어떻게 개선할지</strong> Claude에게 분석을 부탁합니다.
+</div>
+
+<h3>&#9312; 반응 종합 분석 요청</h3>
+<pre>지금까지 유튜브, 네이버, 서점에서 수집한
+배재규 저자의 책에 대한 반응을 종합해서 분석해줘.
+
+다음 형식으로 정리해줘:
+
+[독자가 좋아한 점 Top 5]
+- 구체적인 근거(어떤 댓글/리뷰에서 나왔는지)와 함께
+
+[독자가 어려워한 점 Top 5]
+- 어떤 내용이 어렵다고 했는지, 왜 어렵다고 느꼈는지
+
+[독자가 추가를 원하는 내용 Top 5]
+- 어떤 주제/챕터를 원하는지
+
+[2쇄 개선 제안]
+- 위 분석을 바탕으로 구체적인 개선 방안 5가지</pre>
+
+<h3>&#9313; 경쟁 도서와 비교 분석</h3>
+<pre>네이버 책(book.naver.com)에서 "ETF 투자" 관련 베스트셀러를
+검색하고, 상위 5권의 책 정보와 평점을 정리해줘.
+
+그리고 배재규 저자의 책과 비교해서:
+1. 우리 책만의 강점 (다른 책에 없는 것)
+2. 경쟁 도서에서 배울 점
+3. 2쇄에서 차별화할 수 있는 포인트
+를 분석해줘.</pre>
+
+<h3>&#9314; 독자 눈높이에 맞는 내용 편집 방향</h3>
+<pre>유튜브에서 "ETF 초보", "ETF 입문", "ETF 쉽게"를
+각각 검색해서 인기 영상들의 제목과 내용을 분석해줘.
+
+초보 투자자들이 가장 궁금해하는 것이 무엇인지 파악하고,
+2쇄에서 다음을 어떻게 개선하면 좋을지 제안해줘:
+
+1. 초보자가 이해하기 쉽게 바꿔야 할 설명이나 용어
+2. 추가하면 좋을 그림, 도표, 예시
+3. 새로 넣으면 좋을 Q&amp;A 또는 FAQ 주제
+4. 챕터 순서나 구성 변경 제안</pre>
+
+<div class="note">
+  &#128204; <strong>이 분석이 대단한 이유:</strong><br>
+  보통 이런 시장 조사를 하려면 설문조사를 하거나 리서치 회사에 맡겨야 해요.<br>
+  그런데 Claude + Playwright MCP를 쓰면 <strong>지금 바로, 무료로</strong> 할 수 있어요!<br>
+  실제 독자 반응을 기반으로 하니까 설문조사보다 더 솔직한 의견을 모을 수 있답니다.
+</div>
+
+<h3>&#9315; 마케팅 방향 잡기</h3>
+<pre>유튜브에서 "배재규"를 검색한 결과와
+네이버에서 책 리뷰를 분석한 결과를 바탕으로,
+
+2쇄 출간 시 마케팅 전략을 제안해줘:
+1. 가장 반응이 좋았던 포인트를 활용한 홍보 문구 3개
+2. 타겟 독자층 (누가 이 책을 가장 좋아하는지)
+3. 유튜브 콘텐츠 활용 방안 (어떤 유튜버와 협업하면 좋을지)
+4. 2쇄에서 "이런 점이 바뀌었습니다"로 어필할 포인트</pre>
+
+<h2>Step 20. 결과를 파일로 저장하기</h2>
+<p>분석 결과가 마음에 들면, 파일로 저장해달라고 부탁하세요:</p>
+<pre>지금까지 분석한 내용을 모두 종합해서
+"book_analysis_report.md" 파일로 저장해줘.
+
+보고서 형식으로 깔끔하게 정리해줘:
+- 제목: 배재규 저자 도서 독자 반응 분석 보고서
+- 날짜
+- 조사 범위 (어떤 사이트에서 조사했는지)
+- 핵심 발견 사항
+- 2쇄 개선 제안
+- 마케팅 전략 제안</pre>
+
+<div class="tip">
+  &#128161; <strong>파일로 저장하면 좋은 점:</strong><br>
+  &#8226; 나중에 다시 볼 수 있어요<br>
+  &#8226; 다른 사람에게 공유할 수 있어요<br>
+  &#8226; 회의 자료로 바로 활용할 수 있어요<br>
+  &#8226; Claude가 마크다운(.md) 형식으로 예쁘게 만들어줍니다
+</div>
+
+<!-- ==================== 최종 체크포인트 ==================== -->
+<h3>&#9989; 최종 체크포인트</h3>
 <div class="checkpoint">
   <ul>
-    <li>python --version 결과에 Python 3.x.x가 나왔나요?</li>
-    <li>YouTube Data API v3를 활성화(Enable) 했나요?</li>
-    <li>cat .env 결과에 YOUTUBE_API_KEY=... 형태가 보이나요?</li>
-    <li>collect_data.py 파일이 만들어졌나요?</li>
+    <li>1회차에 설치한 Git, Node.js, Claude Code가 모두 정상 동작하나요?</li>
+    <li>cmd(명령 프롬프트)에서 <code>claude</code>를 실행할 수 있나요?</li>
+    <li>MCP가 "Claude에게 초능력을 추가하는 플러그인"이라는 것을 이해했나요?</li>
+    <li><code>claude mcp list</code>에서 playwright가 보이나요?</li>
+    <li>Playwright MCP로 유튜브/네이버에서 ETF 정보를 가져올 수 있나요?</li>
+    <li>책에 대한 유튜브 반응을 분석해봤나요?</li>
+    <li>2쇄 개선 방향을 Claude에게 분석 받아봤나요?</li>
   </ul>
 </div>
 
 <!-- 막혔을 때 -->
-<h3>🚨 막혔을 때</h3>
+<h3>&#128680; 막혔을 때</h3>
 <table>
   <tr><th>증상</th><th>원인</th><th>해결법</th></tr>
-  <tr><td>python 대신 Microsoft Store가 열려요</td><td>Windows 앱 별칭 문제</td><td>Git Bash에서는 보통 안 생겨요. 생기면 python3으로 시도</td></tr>
-  <tr><td>"Add python.exe to PATH" 체크를 깜빡했어요</td><td>PATH 미등록</td><td>Python을 삭제 후 다시 설치하면서 이번엔 꼭 체크!</td></tr>
-  <tr><td>"결제 계정 설정하세요" 메시지</td><td>구글 결제 정보 요청</td><td>무료 체험 등록 - 실제 과금 안 돼요. 카드 등록은 본인 확인 용도</td></tr>
-  <tr><td>API 키가 안 보여요</td><td>팝업이 빨리 닫힘</td><td>"사용자 인증 정보" 페이지에서 이미 만든 키 확인 가능</td></tr>
-  <tr><td>"프로젝트 선택"이 안 보여요</td><td>화면 상단 확인</td><td>"Google Cloud" 로고 옆 드롭다운 메뉴를 클릭</td></tr>
-  <tr><td>Claude가 다른 파일명을 썼어요</td><td>Claude가 때때로 다른 이름 선택</td><td>괜찮아요! ls로 확인하고 Claude가 만든 이름으로 진행</td></tr>
+  <tr><td>cmd에서 "claude"을 인식 못 해요</td><td>PATH 설정 안 됨</td><td>Step 5를 다시 따라하세요. 환경 변수 추가 후 cmd를 <strong>새로 열어야</strong> 해요!</td></tr>
+  <tr><td>"환경 변수" 검색이 안 돼요</td><td>검색어 차이</td><td>"시스템 환경 변수 편집" 또는 "environment variables" 로 검색해보세요</td></tr>
+  <tr><td>Path에 어떤 경로를 넣어야 할지 모르겠어요</td><td>경로 확인 필요</td><td>Git Bash에서 <code>where claude</code> 입력 후, 마지막 <code>\claude</code>를 뺀 폴더 경로를 넣으세요</td></tr>
+  <tr><td>mcp add 명령어가 에러나요</td><td>Claude Code 버전 오래됨</td><td><code>npm update -g @anthropic-ai/claude-code</code>로 업데이트</td></tr>
+  <tr><td>Playwright가 브라우저를 못 열어요</td><td>첫 실행 시 다운로드 필요</td><td>잠시 기다리세요. 처음엔 브라우저를 다운로드하느라 시간이 걸려요 (1~3분)</td></tr>
+  <tr><td>Claude가 웹사이트 내용을 못 읽어요</td><td>사이트가 차단하는 경우</td><td>다른 사이트로 시도해보세요. 모든 사이트가 되는 건 아니에요</td></tr>
+  <tr><td>"도구를 사용할 수 없습니다"</td><td>MCP 연결 실패</td><td><code>/exit</code>으로 나간 후 <code>claude mcp list</code>로 확인, 다시 <code>claude</code> 실행</td></tr>
+  <tr><td>유튜브 댓글이 안 보여요</td><td>댓글이 로딩 안 됨</td><td>"영상 페이지에서 스크롤을 내려서 댓글을 로딩한 다음 읽어줘"라고 추가로 말해보세요</td></tr>
+  <tr><td>서점 사이트가 잘 안 열려요</td><td>팝업/로그인 차단</td><td>다른 서점 사이트로 시도하거나, "팝업을 닫고 진행해줘"라고 말해보세요</td></tr>
+  <tr><td>분석 결과가 너무 짧아요</td><td>프롬프트가 간단했음</td><td>Step 16~18의 상세한 프롬프트를 참고해서 구체적으로 요청하세요</td></tr>
 </table>
 
 <div class="done">
-  <p><strong>🎉 2회차 완료! 수고하셨습니다!</strong></p>
-  <p>다음 회차에서 프로그램을 실행해서 진짜 데이터를 모아올 거예요!</p>
+  <p><strong>&#127881; 2회차 완료! 수고하셨습니다!</strong></p>
+  <p>오늘 배운 것: cmd에서 Claude 실행, PATH 설정, MCP의 개념,<br>
+  Playwright MCP 설치, ETF 시장 조사, 책 반응 분석까지!</p>
+  <p>이제 Claude가 웹 브라우저를 조종해서 시장 조사, 독자 반응 분석,<br>
+  2쇄 편집 방향까지 잡아줄 수 있어요. 대단해요!</p>
 </div>
 
 <div class="nav">
-  <a href="session1.html">← 1회차로</a>
-  <a href="session3.html">3회차로 →</a>
+  <a href="session1.html">&larr; 1회차로</a>
+  <a href="session3.html">3회차로 &rarr;</a>
 </div>
 
 </div>
